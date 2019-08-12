@@ -160,4 +160,4 @@ Outputs:
     Description: Public Subnet B ID
     Value: { "Ref" :  "MyPublicSubnet2" }
     Export:
-      Name: MyPublicSubnet2ID
+      Name: PublicSubnet2ID
