@@ -121,37 +121,6 @@ Resources:
     Properties:
       SubnetId: { "Ref" :  "MyPrivateSubnet2" }
       RouteTableId: { "Ref" :  "PrivateRouteTable" }
-  InstanceSecurityGroup:
-    Type: 'AWS::EC2::SecurityGroup'
-    Properties:
-      GroupDescription: Allow http to client host
-      VpcId: { "Ref" : "MyVPC" }
-      SecurityGroupIngress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: udp
-        FromPort: 123 
-        ToPort: 123 
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0   
-      SecurityGroupEgress:
-      - IpProtocol: tcp
-        FromPort: 80
-        ToPort: 80
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: udp
-        FromPort: 123 
-        ToPort: 123 
-        CidrIp: 0.0.0.0/0
-      - IpProtocol: tcp
-        FromPort: 22
-        ToPort: 22
-        CidrIp: 0.0.0.0/0
   myDBSubnetGroup: 
     Type: "AWS::RDS::DBSubnetGroup"
     Properties: 
@@ -159,6 +128,8 @@ Resources:
       SubnetIds: 
         - { "Ref" :  "MyPrivateSubnet1" }
         - { "Ref" :  "MyPrivateSubnet2" }
+        - { "Ref" :  "MyPublicSubnet1" }
+        - { "Ref" :  "MyPublicSubnet2" }
       Tags: 
         - 
           Key: Name
@@ -169,29 +140,24 @@ Outputs:
     Description: VPC ID
     Value: { "Ref" : "MyVPC" }
     Export:
-      Name: BeanstalkVPCID
+      Name: VPCID
   MyPrivateSubnet1ID:
     Description: Private Subnet A ID
     Value: { "Ref" :  "MyPrivateSubnet1" }
     Export:
-      Name: BeanstalkMyPrivateSubnet1ID
+      Name: PrivateSubnet1ID
   MyPrivateSubnet2ID:
     Description: Private Subnet B ID
     Value: { "Ref" :  "MyPrivateSubnet2" }
     Export:
-      Name: BeanstalkMyPrivateSubnet2ID
+      Name: PrivateSubnet2ID
   MyPublicSubnet1ID:
     Description: Public Subnet A ID
     Value: { "Ref" :  "MyPublicSubnet1" }
     Export:
-      Name: BeanstalkMyPublicSubnet1ID
+      Name: PublicSubnet1ID
   MyPublicSubnet2ID:
     Description: Public Subnet B ID
     Value: { "Ref" :  "MyPublicSubnet2" }
     Export:
-      Name: BeanstalkMyPublicSubnet2ID
-  InstanceSecurityGroupID:
-    Description: EC2 instnace Security Group ID
-    Value: { "Fn::GetAtt" :  ["InstanceSecurityGroup", "GroupId"] }
-    Export:
-      Name: BeanstalkInstanceSecurityGroup
+      Name: MyPublicSubnet2ID
